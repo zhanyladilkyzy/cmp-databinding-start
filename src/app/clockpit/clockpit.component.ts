@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-clockpit',
@@ -8,24 +8,25 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 export class ClockpitComponent implements OnInit {
   @Output() serverCreated = new EventEmitter<{serverName: string, serverComponent: string}>();
   @Output('bpCreated') blueprintCreated = new EventEmitter<{blueServerName: string, blueServerComponent: string}>();
-  newServerName = '';
-  newServerContent = '';
+  // newServerName = '';
+  // newServerContent = '';
+  @ViewChild('serverContentInput', {static: false}) serverContentInput: ElementRef;
 
   constructor() { }
 
   ngOnInit(): void {
   }
-  onAddServer() {
+  onAddServer(nameInput: HTMLInputElement) {
     this.serverCreated.emit({
-      serverName: this.newServerName,
-      serverComponent: this.newServerContent
+      serverName: nameInput.value,
+      serverComponent: this.serverContentInput.nativeElement.value
     });
   }
 
-  onAddBlueprint() {
+  onAddBlueprint(nameInput: HTMLInputElement) {
     this.blueprintCreated.emit({
-      blueServerName: this.newServerName,
-      blueServerComponent: this.newServerContent
+      blueServerName: nameInput.value,
+      blueServerComponent: this.serverContentInput.nativeElement.value
     });
   }
 }
